@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0E5A3A">
-<title>PELICAN Orders</title>
+<title>PELICAN Sales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Baloo+Da+2:wght@400;500;600;700;800&display=swap">
@@ -206,50 +206,50 @@ const API='https://bqsdsmjjssuwyyhhpwzk.supabase.co/rest/v1/rpc/';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxc2RzbWpqc3N1d3l5aGhwd3prIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNjMyNjUsImV4cCI6MjEwODczOTI2NX0.Ozhk0xT4ItYRQ--2D3_bR3Ec3-8QTLgjJkPC8qN6naw';
 
 const T={
-en:{orders:'Orders',tagline:'ORDER BOOK',who:'Who are you?',whoSub:'Tap your name, then enter your PIN.',office:'Office',officeSub:'All shops',shopsN:'{n} shops',
+en:{orders:'Dispatches',tagline:'SALES',who:'Who are you?',whoSub:'Tap your name, then enter your PIN.',office:'Office',officeSub:'All shops',shopsN:'{n} shops',
 enterPin:'Enter your PIN',wrongPin:'Wrong PIN. Try again.',locked:'Too many tries. Wait 10 minutes.',clear:'Clear',back:'Back',hello:'Namaskar,',logout:'Log out',
-tNew:'New order',tMine:'My orders',tAll:'All orders',tBoard:'Leaderboard',myShops:'My shops',allShops:'All shops',search:'Search shop or town',
-noOrderYet:'No order yet',lastOn:'Last: {d}',addShop:'+ Add a shop not in the list',newShopTitle:'New shop',shopName:'Shop name',town:'Town / location',
-addThis:'Use this shop',change:'Change',salesman:'Salesman',date:'Order date',cookers:'Cookers',spares:'Spare parts',showSpares:'Show spare parts',hideSpares:'Hide spare parts',
-note:'Note (optional)',notePh:'e.g. urgent, deliver by Saturday',total:'Total',pcs:'pcs',save:'Save order',saving:'Saving',saved:'Order saved for {s}',
-needQty:'Enter a quantity for at least one item',thisMonth:'This month',lastMonth:'Last month',allTime:'All time',noOrders:'No orders yet',
-del:'Delete',sure:'Delete this order?',yes:'Yes, delete',no:'Keep',deleted:'Order deleted',cantDel:'Only orders you saved in the last 24 hours can be deleted. Ask the office.',
-download:'Download for Excel',kOrders:'Orders',kPcs:'Pieces',kShops:'Shops ordered',rankSales:'Salesman ranking',topShops:'Top ordering shops',topSkus:'Top items',
-latest:'Latest orders',noOrderShops:'Shops with no orders yet ({n})',allOrdered:'Every shop has ordered. Well done!',ordersN:'{n} orders',shopsOf:'{a} of {b} shops',
+tNew:'Add dispatch',tMine:'My dispatches',tAll:'All dispatches',tBoard:'Leaderboard',myShops:'My shops',allShops:'All shops',search:'Search shop or town',
+noOrderYet:'No dispatch yet',lastOn:'Last: {d}',addShop:'+ Add a shop not in the list',newShopTitle:'New shop',shopName:'Shop name',town:'Town / location',
+addThis:'Use this shop',change:'Change',salesman:'Salesman',date:'Date of dispatch',cookers:'Cookers',spares:'Spare parts',showSpares:'Show spare parts',hideSpares:'Hide spare parts',
+note:'Note (optional)',notePh:'e.g. urgent, deliver by Saturday',total:'Total',pcs:'pcs',save:'Confirm dispatch',saving:'Saving',saved:'Dispatch confirmed for {s}',
+needQty:'Enter a quantity for at least one item',thisMonth:'This month',lastMonth:'Last month',allTime:'All time',noOrders:'No dispatches yet',
+del:'Delete',sure:'Delete this dispatch?',yes:'Yes, delete',no:'Keep',deleted:'Dispatch deleted',cantDel:'Only dispatches you confirmed in the last 24 hours can be deleted. Ask the office.',
+download:'Download for Excel',kOrders:'Dispatches',kPcs:'Pieces',kShops:'Shops dispatched to',rankSales:'Salesman ranking',topShops:'Top shops by dispatch',topSkus:'Top items',
+latest:'Latest dispatches',noOrderShops:'Shops with no dispatch yet ({n})',allOrdered:'Every shop has had a dispatch. Well done!',ordersN:'{n} dispatches',shopsOf:'{a} of {b} shops',
 entered:'entered by {n}',pinTitle:'Change PIN',oldPin:'Current PIN',newPin:'New PIN (4 digits)',savePin:'Save PIN',pinSaved:'PIN changed',badPin:'PIN must be 4 digits',
 resetTitle:'Reset a salesman’s PIN',resetBtn:'Reset PIN',resetDone:'PIN reset for {n}',close:'Close',netErr:'No internet connection. Your entry is still on screen, try again.',
-expired:'Please log in again.',err:'Something went wrong: {e}',loading:'Loading',newTag:'new',all:'All',retry:'Try again'},
-bn:{orders:'অর্ডার',tagline:'অর্ডার বুক',who:'আপনি কে?',whoSub:'নিজের নামে চাপুন, তারপর পিন দিন।',office:'অফিস',officeSub:'সব দোকান',shopsN:'{n}টি দোকান',
+expired:'Please log in again.',err:'Something went wrong: {e}',loading:'Loading',newTag:'new',all:'All',retry:'Try again',invoice:'Invoice number',invPh:'e.g. LMAL/1234',needInv:'Enter the invoice number',inv:'Inv.',searchDisp:'Search shop, town or invoice'},
+bn:{orders:'ডিসপ্যাচ',tagline:'সেলস',who:'আপনি কে?',whoSub:'নিজের নামে চাপুন, তারপর পিন দিন।',office:'অফিস',officeSub:'সব দোকান',shopsN:'{n}টি দোকান',
 enterPin:'আপনার পিন দিন',wrongPin:'পিন ভুল। আবার চেষ্টা করুন।',locked:'অনেকবার ভুল হয়েছে। ১০ মিনিট অপেক্ষা করুন।',clear:'মুছুন',back:'ফিরে যান',hello:'নমস্কার,',logout:'লগ আউট',
-tNew:'নতুন অর্ডার',tMine:'আমার অর্ডার',tAll:'সব অর্ডার',tBoard:'লিডারবোর্ড',myShops:'আমার দোকান',allShops:'সব দোকান',search:'দোকান বা শহর খুঁজুন',
-noOrderYet:'এখনও অর্ডার নেই',lastOn:'শেষ: {d}',addShop:'+ তালিকায় নেই এমন দোকান যোগ করুন',newShopTitle:'নতুন দোকান',shopName:'দোকানের নাম',town:'শহর / জায়গা',
-addThis:'এই দোকান নিন',change:'বদলান',salesman:'সেলসম্যান',date:'অর্ডারের তারিখ',cookers:'কুকার',spares:'স্পেয়ার পার্টস',showSpares:'স্পেয়ার পার্টস দেখান',hideSpares:'স্পেয়ার পার্টস লুকান',
-note:'নোট (ঐচ্ছিক)',notePh:'যেমন: জরুরি, শনিবারের মধ্যে ডেলিভারি',total:'মোট',pcs:'পিস',save:'অর্ডার সেভ করুন',saving:'সেভ হচ্ছে',saved:'{s}-এর অর্ডার সেভ হয়েছে',
-needQty:'অন্তত একটি জিনিসের সংখ্যা লিখুন',thisMonth:'এই মাস',lastMonth:'গত মাস',allTime:'সব সময়',noOrders:'এখনও কোনো অর্ডার নেই',
-del:'মুছুন',sure:'এই অর্ডারটি মুছবেন?',yes:'হ্যাঁ, মুছুন',no:'রাখুন',deleted:'অর্ডার মোছা হয়েছে',cantDel:'শুধু গত ২৪ ঘণ্টায় আপনার সেভ করা অর্ডার মোছা যায়। অফিসে বলুন।',
-download:'এক্সেলের জন্য ডাউনলোড',kOrders:'অর্ডার',kPcs:'পিস',kShops:'দোকান অর্ডার দিয়েছে',rankSales:'সেলসম্যান র‍্যাঙ্কিং',topShops:'সবচেয়ে বেশি অর্ডার দেওয়া দোকান',topSkus:'সবচেয়ে বেশি বিক্রি',
-latest:'সাম্প্রতিক অর্ডার',noOrderShops:'যে দোকান এখনও অর্ডার দেয়নি ({n})',allOrdered:'সব দোকান অর্ডার দিয়েছে। দারুণ!',ordersN:'{n}টি অর্ডার',shopsOf:'{b}টির মধ্যে {a}টি দোকান',
+tNew:'ডিসপ্যাচ যোগ করুন',tMine:'আমার ডিসপ্যাচ',tAll:'সব ডিসপ্যাচ',tBoard:'লিডারবোর্ড',myShops:'আমার দোকান',allShops:'সব দোকান',search:'দোকান বা শহর খুঁজুন',
+noOrderYet:'এখনও ডিসপ্যাচ নেই',lastOn:'শেষ: {d}',addShop:'+ তালিকায় নেই এমন দোকান যোগ করুন',newShopTitle:'নতুন দোকান',shopName:'দোকানের নাম',town:'শহর / জায়গা',
+addThis:'এই দোকান নিন',change:'বদলান',salesman:'সেলসম্যান',date:'ডিসপ্যাচের তারিখ',cookers:'কুকার',spares:'স্পেয়ার পার্টস',showSpares:'স্পেয়ার পার্টস দেখান',hideSpares:'স্পেয়ার পার্টস লুকান',
+note:'নোট (ঐচ্ছিক)',notePh:'যেমন: জরুরি, শনিবারের মধ্যে ডেলিভারি',total:'মোট',pcs:'পিস',save:'ডিসপ্যাচ নিশ্চিত করুন',saving:'সেভ হচ্ছে',saved:'{s}-এর ডিসপ্যাচ নিশ্চিত হয়েছে',
+needQty:'অন্তত একটি জিনিসের সংখ্যা লিখুন',thisMonth:'এই মাস',lastMonth:'গত মাস',allTime:'সব সময়',noOrders:'এখনও কোনো ডিসপ্যাচ নেই',
+del:'মুছুন',sure:'এই ডিসপ্যাচ মুছবেন?',yes:'হ্যাঁ, মুছুন',no:'রাখুন',deleted:'ডিসপ্যাচ মোছা হয়েছে',cantDel:'শুধু গত ২৪ ঘণ্টায় আপনার নিশ্চিত করা ডিসপ্যাচ মোছা যায়। অফিসে বলুন।',
+download:'এক্সেলের জন্য ডাউনলোড',kOrders:'ডিসপ্যাচ',kPcs:'পিস',kShops:'যে দোকানে ডিসপ্যাচ হয়েছে',rankSales:'সেলসম্যান র‍্যাঙ্কিং',topShops:'সবচেয়ে বেশি ডিসপ্যাচ পাওয়া দোকান',topSkus:'সবচেয়ে বেশি বিক্রি',
+latest:'সাম্প্রতিক ডিসপ্যাচ',noOrderShops:'যে দোকানে এখনও ডিসপ্যাচ হয়নি ({n})',allOrdered:'সব দোকানে ডিসপ্যাচ হয়েছে। দারুণ!',ordersN:'{n}টি ডিসপ্যাচ',shopsOf:'{b}টির মধ্যে {a}টি দোকান',
 entered:'{n} লিখেছেন',pinTitle:'পিন বদলান',oldPin:'এখনকার পিন',newPin:'নতুন পিন (৪ সংখ্যা)',savePin:'পিন সেভ করুন',pinSaved:'পিন বদলানো হয়েছে',badPin:'পিন ৪ সংখ্যার হতে হবে',
 resetTitle:'সেলসম্যানের পিন রিসেট',resetBtn:'পিন রিসেট',resetDone:'{n}-এর পিন রিসেট হয়েছে',close:'বন্ধ করুন',netErr:'ইন্টারনেট নেই। লেখা স্ক্রিনেই আছে, আবার চেষ্টা করুন।',
-expired:'আবার লগ ইন করুন।',err:'সমস্যা হয়েছে: {e}',loading:'লোড হচ্ছে',newTag:'নতুন',all:'সব',retry:'আবার চেষ্টা করুন'},
-hi:{orders:'ऑर्डर',tagline:'ऑर्डर बुक',who:'आप कौन हैं?',whoSub:'अपने नाम पर टैप करें, फिर पिन डालें।',office:'ऑफ़िस',officeSub:'सभी दुकानें',shopsN:'{n} दुकानें',
+expired:'আবার লগ ইন করুন।',err:'সমস্যা হয়েছে: {e}',loading:'লোড হচ্ছে',newTag:'নতুন',all:'সব',retry:'আবার চেষ্টা করুন',invoice:'ইনভয়েস নম্বর',invPh:'যেমন: LMAL/1234',needInv:'ইনভয়েস নম্বর লিখুন',inv:'ইনভ.',searchDisp:'দোকান, শহর বা ইনভয়েস খুঁজুন'},
+hi:{orders:'डिस्पैच',tagline:'सेल्स',who:'आप कौन हैं?',whoSub:'अपने नाम पर टैप करें, फिर पिन डालें।',office:'ऑफ़िस',officeSub:'सभी दुकानें',shopsN:'{n} दुकानें',
 enterPin:'अपना पिन डालें',wrongPin:'गलत पिन। फिर कोशिश करें।',locked:'बहुत बार गलत हुआ। 10 मिनट रुकें।',clear:'मिटाएं',back:'वापस',hello:'नमस्ते,',logout:'लॉग आउट',
-tNew:'नया ऑर्डर',tMine:'मेरे ऑर्डर',tAll:'सभी ऑर्डर',tBoard:'लीडरबोर्ड',myShops:'मेरी दुकानें',allShops:'सभी दुकानें',search:'दुकान या शहर खोजें',
-noOrderYet:'अभी कोई ऑर्डर नहीं',lastOn:'आखिरी: {d}',addShop:'+ सूची में न होने वाली दुकान जोड़ें',newShopTitle:'नई दुकान',shopName:'दुकान का नाम',town:'शहर / जगह',
-addThis:'यह दुकान चुनें',change:'बदलें',salesman:'सेल्समैन',date:'ऑर्डर की तारीख',cookers:'कुकर',spares:'स्पेयर पार्ट्स',showSpares:'स्पेयर पार्ट्स दिखाएं',hideSpares:'स्पेयर पार्ट्स छिपाएं',
-note:'नोट (वैकल्पिक)',notePh:'जैसे: ज़रूरी, शनिवार तक डिलीवरी',total:'कुल',pcs:'पीस',save:'ऑर्डर सेव करें',saving:'सेव हो रहा है',saved:'{s} का ऑर्डर सेव हो गया',
-needQty:'कम से कम एक चीज़ की संख्या लिखें',thisMonth:'इस महीने',lastMonth:'पिछले महीने',allTime:'अब तक',noOrders:'अभी कोई ऑर्डर नहीं',
-del:'हटाएं',sure:'यह ऑर्डर हटाएं?',yes:'हां, हटाएं',no:'रहने दें',deleted:'ऑर्डर हटा दिया गया',cantDel:'सिर्फ़ पिछले 24 घंटे में आपके सेव किए ऑर्डर हटाए जा सकते हैं। ऑफ़िस से कहें।',
-download:'एक्सेल के लिए डाउनलोड',kOrders:'ऑर्डर',kPcs:'पीस',kShops:'दुकानों ने ऑर्डर दिया',rankSales:'सेल्समैन रैंकिंग',topShops:'सबसे ज़्यादा ऑर्डर देने वाली दुकानें',topSkus:'सबसे ज़्यादा बिकने वाले',
-latest:'हाल के ऑर्डर',noOrderShops:'जिन दुकानों ने अभी ऑर्डर नहीं दिया ({n})',allOrdered:'हर दुकान ने ऑर्डर दिया है। बहुत बढ़िया!',ordersN:'{n} ऑर्डर',shopsOf:'{b} में से {a} दुकानें',
+tNew:'डिस्पैच जोड़ें',tMine:'मेरे डिस्पैच',tAll:'सभी डिस्पैच',tBoard:'लीडरबोर्ड',myShops:'मेरी दुकानें',allShops:'सभी दुकानें',search:'दुकान या शहर खोजें',
+noOrderYet:'अभी कोई डिस्पैच नहीं',lastOn:'आखिरी: {d}',addShop:'+ सूची में न होने वाली दुकान जोड़ें',newShopTitle:'नई दुकान',shopName:'दुकान का नाम',town:'शहर / जगह',
+addThis:'यह दुकान चुनें',change:'बदलें',salesman:'सेल्समैन',date:'डिस्पैच की तारीख',cookers:'कुकर',spares:'स्पेयर पार्ट्स',showSpares:'स्पेयर पार्ट्स दिखाएं',hideSpares:'स्पेयर पार्ट्स छिपाएं',
+note:'नोट (वैकल्पिक)',notePh:'जैसे: ज़रूरी, शनिवार तक डिलीवरी',total:'कुल',pcs:'पीस',save:'डिस्पैच कन्फ़र्म करें',saving:'सेव हो रहा है',saved:'{s} का डिस्पैच कन्फ़र्म हो गया',
+needQty:'कम से कम एक चीज़ की संख्या लिखें',thisMonth:'इस महीने',lastMonth:'पिछले महीने',allTime:'अब तक',noOrders:'अभी कोई डिस्पैच नहीं',
+del:'हटाएं',sure:'यह डिस्पैच हटाएं?',yes:'हां, हटाएं',no:'रहने दें',deleted:'डिस्पैच हटा दिया गया',cantDel:'सिर्फ़ पिछले 24 घंटे में आपके कन्फ़र्म किए डिस्पैच हटाए जा सकते हैं। ऑफ़िस से कहें।',
+download:'एक्सेल के लिए डाउनलोड',kOrders:'डिस्पैच',kPcs:'पीस',kShops:'जिन दुकानों में डिस्पैच हुआ',rankSales:'सेल्समैन रैंकिंग',topShops:'सबसे ज़्यादा डिस्पैच वाली दुकानें',topSkus:'सबसे ज़्यादा बिकने वाले',
+latest:'हाल के डिस्पैच',noOrderShops:'जिन दुकानों में अभी डिस्पैच नहीं हुआ ({n})',allOrdered:'हर दुकान में डिस्पैच हो गया है। बहुत बढ़िया!',ordersN:'{n} डिस्पैच',shopsOf:'{b} में से {a} दुकानें',
 entered:'{n} ने लिखा',pinTitle:'पिन बदलें',oldPin:'अभी का पिन',newPin:'नया पिन (4 अंक)',savePin:'पिन सेव करें',pinSaved:'पिन बदल गया',badPin:'पिन 4 अंकों का होना चाहिए',
 resetTitle:'सेल्समैन का पिन रीसेट करें',resetBtn:'पिन रीसेट',resetDone:'{n} का पिन रीसेट हो गया',close:'बंद करें',netErr:'इंटरनेट नहीं है। आपकी एंट्री स्क्रीन पर है, फिर कोशिश करें।',
-expired:'फिर से लॉग इन करें।',err:'कुछ गलत हुआ: {e}',loading:'लोड हो रहा है',newTag:'नई',all:'सभी',retry:'फिर कोशिश करें'}
+expired:'फिर से लॉग इन करें।',err:'कुछ गलत हुआ: {e}',loading:'लोड हो रहा है',newTag:'नई',all:'सभी',retry:'फिर कोशिश करें',invoice:'इनवॉइस नंबर',invPh:'जैसे: LMAL/1234',needInv:'इनवॉइस नंबर लिखें',inv:'इनवॉइस',searchDisp:'दुकान, शहर या इनवॉइस खोजें'}
 };
 
 /* ---------- state ---------- */
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
-const S={lang:store.get('pel-lang')||'en',token:store.get('pel-token'),me:null,logins:null,pickName:null,pin:'',pinErr:'',busy:false,
+const S={invoice:'',dq:'',lang:store.get('pel-lang')||'en',token:store.get('pel-token'),me:null,logins:null,pickName:null,pin:'',pinErr:'',busy:false,
   boot:null,tab:'new',shopQ:'',shop:null,newShop:null,salesman:'',date:'',qty:{},note:'',showSpares:false,
   period:'month',orders:null,fSales:'all',confirm:null,board:null,bPeriod:'month',sheet:null,saving:false};
 if(!T[S.lang])S.lang='en';
@@ -310,7 +310,7 @@ function shell(inner){
   return `<div class="band"><div class="wrap">${logo()}<span style="margin-left:auto">${langSwitch()}</span>
    <button class="iconbtn" data-act="settings" aria-label="${esc(t('pinTitle'))}">⋯</button></div></div>
    <main class="wrap">${inner}</main>
-   <nav class="tabs"><div class="in">${[['new','tNew'],['mine',isA?'tAll':'tMine'],['board','tBoard']].map(([k,l])=>`<button data-act="tab" data-tab="${k}" ${S.tab===k?'aria-current="page"':''}><span class="pip"></span>${IC[k]}<span>${t(l)}</span></button>`).join('')}</div></nav>
+   <nav class="tabs"><div class="in" style="grid-template-columns:repeat(${isA?2:3},1fr)">${(isA?[['mine','tAll'],['board','tBoard']]:[['new','tNew'],['mine','tMine'],['board','tBoard']]).map(([k,l])=>`<button data-act="tab" data-tab="${k}" ${S.tab===k?'aria-current="page"':''}><span class="pip"></span>${IC[k]}<span>${t(l)}</span></button>`).join('')}</div></nav>
    ${S.sheet?vSheet():''}`;
 }
 
@@ -328,8 +328,8 @@ function vNew(){
   const total=Object.values(S.qty).reduce((a,b)=>a+(b||0),0);
   return `<div class="stack">
   <div class="chosen"><div class="main"><b>${esc(name)}</b><small>${esc(loc||'')}${sh?'':' · '+t('newTag')}${isA&&sh?' · '+esc(sh.salesman):''}</small></div><button class="btn sm" data-act="unpick">${t('change')}</button></div>
-  <section class="card ${isA?'row2':''}">${isA?`<label class="field"><span>${t('salesman')}</span><select class="input" id="sm">${B.salesmen.map(s=>`<option ${S.salesman===s?'selected':''}>${esc(s)}</option>`).join('')}</select></label>`:''}
-   <label class="field"><span>${t('date')}</span><input class="input" type="date" id="odate" value="${S.date}" max="${today()}"></label></section>
+  <section class="card row2"><label class="field"><span>${t('date')}</span><input class="input" type="date" id="odate" value="${S.date}" max="${today()}"></label>
+   <label class="field"><span>${t('invoice')}</span><input class="input" id="oinv" autocomplete="off" maxlength="40" value="${esc(S.invoice)}" placeholder="${esc(t('invPh'))}"></label></section>
   <section class="card"><div class="card-h"><h2>${t('cookers')}</h2></div><div class="skus">${B.skus.filter(k=>k.cat==='cooker').map(tile).join('')}</div>
    <div style="margin-top:12px"><button class="linkish" data-act="spares">${S.showSpares?t('hideSpares'):t('showSpares')}</button></div>
    ${S.showSpares?`<div class="card-h" style="margin-top:8px"><h2>${t('spares')}</h2></div><div class="skus">${B.skus.filter(k=>k.cat==='spare').map(tile).join('')}</div>`:''}</section>
@@ -351,15 +351,17 @@ function vMine(){
   if(!list)body=`<p class="empty"><span class="spin"></span></p>`;
   else{
     if(isA&&S.fSales!=='all')list=list.filter(o=>o.salesman===S.fSales);
+    if(S.dq.trim()){const q=norm(S.dq);list=list.filter(o=>norm(o.shop+' '+o.location+' '+o.inv).includes(q))}
     const pcs=list.reduce((a,o)=>a+o.total,0);
     body=`<section class="card"><div class="card-h"><span class="meta">${t('ordersN',{n:list.length})} · ${num(pcs)} ${t('pcs')}</span>${isA&&list.length?`<button class="btn ghost sm" data-act="csv">${t('download')}</button>`:''}</div>
     ${list.length?list.map(o=>{const own=o.entered_by===S.me.name&&(Date.now()-new Date(o.created_at).getTime()<864e5);const canDel=isA||own;
-      return `<div class="order"><div class="h"><div class="main"><b>${esc(o.shop)}</b><div class="m">${esc(fmtDay(o.date))} · ${esc(o.location||'')}${isA?' · '+esc(o.salesman):''}${o.entered_by!==o.salesman?' · '+esc(t('entered',{n:o.entered_by==='Office'?t('office'):o.entered_by})):''}</div></div><span class="q">${num(o.total)} ${t('pcs')}</span></div>
+      return `<div class="order"><div class="h"><div class="main"><b>${esc(o.shop)}</b><div class="m">${esc(fmtDay(o.date))}${o.inv?' · <b style="color:var(--ink)">'+esc(t('inv'))+' '+esc(o.inv)+'</b>':''} · ${esc(o.location||'')}${isA?' · '+esc(o.salesman):''}${o.entered_by!==o.salesman?' · '+esc(t('entered',{n:o.entered_by==='Office'?t('office'):o.entered_by})):''}</div></div><span class="q">${num(o.total)} ${t('pcs')}</span></div>
       <div class="lines">${(o.items||[]).map(i=>`<span class="line"><strong>${esc(i.sku)}</strong> × ${num(i.qty)}</span>`).join('')}</div>
       ${o.note?`<div class="m" style="margin-top:4px">“${esc(o.note)}”</div>`:''}
       ${canDel?`<div class="acts">${S.confirm===o.id?`<span>${t('sure')}</span><button class="btn red sm" data-act="dodel" data-id="${o.id}">${t('yes')}</button><button class="btn ghost sm" data-act="nodel">${t('no')}</button>`:`<button class="del" data-act="del" data-id="${o.id}">${t('del')}</button>`}</div>`:''}</div>`}).join(''):`<p class="empty">${t('noOrders')}</p>`}</section>`;
   }
   return `<div class="stack"><h1 class="page">${isA?t('tAll'):t('tMine')}</h1>${periodChips(S.period,'period')}
+  <input class="input" id="dq" type="search" autocomplete="off" placeholder="${esc(t('searchDisp'))}" value="${esc(S.dq)}" aria-label="${esc(t('searchDisp'))}">
   ${isA&&S.boot?`<div class="chips">${['all',...S.boot.salesmen].map(s=>`<button class="chip" data-act="fs" data-s="${esc(s)}" aria-pressed="${S.fSales===s}">${s==='all'?t('all'):esc(s)}</button>`).join('')}</div>`:''}
   ${body}</div>`;
 }
@@ -404,6 +406,7 @@ function render(){
   const app=document.getElementById('app');
   if(!S.me){document.body.classList.add('out');app.innerHTML=vLogin();return}
   document.body.classList.remove('out');
+  if(S.me.is_admin&&S.tab==='new'){S.tab='mine';if(!S.orders&&S.token)setTimeout(loadOrders,0)}
   app.innerHTML=shell(S.tab==='mine'?vMine():S.tab==='board'?vBoard():vNew());
   fillShops();
 }
@@ -411,31 +414,34 @@ function toast(m){const el=document.getElementById('toast');el.textContent=m;el.
 function logoutLocal(){S.token=null;S.me=null;S.boot=null;S.orders=null;S.board=null;S.sheet=null;S.pickName=null;S.pin='';store.set('pel-token',null);if(!S.logins)loadLogins();render()}
 async function loadLogins(){S.loadErr=null;S.logins=null;render();try{S.logins=await rpc('app_logins')}catch(e){S.logins=null;S.loadErr=errMsg(e)}render()}
 async function loadBoot(){try{S.boot=await rpc('app_bootstrap',{p_token:S.token});S.me=S.boot.me;render()}catch(e){if(e.code!=='session_expired'){toast(errMsg(e));if(!S.me){S.me=null}}render()}}
-async function loadOrders(){S.orders=null;render();const [f,to]=range(S.period);try{S.orders=await rpc('app_orders',{p_token:S.token,p_from:f,p_to:to})}catch(e){S.orders=[];toast(errMsg(e))}render()}
+async function loadOrders(){S.orders=null;render();const [f,to]=range(S.period);try{S.orders=(await rpc('app_orders',{p_token:S.token,p_from:f,p_to:to})).map(o=>Object.assign(o,splitNote(o.note)))}catch(e){S.orders=[];toast(errMsg(e))}render()}
 async function loadBoard(){S.board=null;render();const [f,to]=range(S.bPeriod);try{S.board=await rpc('app_board',{p_token:S.token,p_from:f,p_to:to})}catch(e){toast(errMsg(e))}render()}
 async function tryLogin(){
   S.busy=true;S.pinErr='';render();
   try{const r=await rpc('app_login',{p_name:S.pickName,p_pin:S.pin});
     if(r.error){S.busy=false;S.pin='';S.pinErr=r.error==='locked'?t('locked'):t('wrongPin');render();return}
-    S.token=r.token;store.set('pel-token',r.token);S.me={name:r.name,is_admin:r.is_admin};S.busy=false;S.pin='';S.pickName=null;S.tab='new';render();loadBoot();
+    S.token=r.token;store.set('pel-token',r.token);S.me={name:r.name,is_admin:r.is_admin};S.busy=false;S.pin='';S.pickName=null;S.tab=r.is_admin?'mine':'new';S.orders=null;render();loadBoot();if(r.is_admin)loadOrders();
   }catch(e){S.busy=false;S.pin='';S.pinErr=errMsg(e);render()}
 }
-function resetOrder(){S.shop=null;S.newShop=null;S.qty={};S.note='';S.shopQ='';S.showSpares=false}
+function splitNote(n){const m=/^INV: ([^\n]*)\n?([\s\S]*)$/.exec(n||'');return m?{inv:m[1],note:m[2]}:{inv:'',note:n||''}}
+function resetOrder(){S.shop=null;S.newShop=null;S.qty={};S.note='';S.invoice='';S.shopQ='';S.showSpares=false}
 async function saveOrder(){
   const items=Object.entries(S.qty).filter(([,q])=>q>0).map(([sku,qty])=>({sku,qty}));
+  if(!S.invoice.trim()){toast(t('needInv'));const f=document.getElementById('oinv');if(f)f.focus();return}
   if(!items.length){toast(t('needQty'));return}
   S.saving=true;render();
   try{const r=await rpc('app_add_order',{p_token:S.token,p_shop_id:S.shop||null,p_new_shop_name:S.newShop?S.newShop.name:null,p_new_shop_location:S.newShop?S.newShop.location:null,
-      p_salesman:S.me.is_admin?S.salesman:null,p_date:S.date,p_note:S.note,p_items:items});
+      p_salesman:S.me.is_admin?S.salesman:null,p_date:S.date,p_note:('INV: '+S.invoice.trim().replace(/\n/g,' ')+(S.note.trim()?'\n'+S.note.trim():'')),p_items:items});
     S.saving=false;resetOrder();window.scrollTo(0,0);toast(t('saved',{s:r.shop}));render();loadBoot();S.orders=null;S.board=null;
   }catch(e){S.saving=false;render();toast(errMsg(e))}
 }
 function csv(){
   let list=S.orders||[];if(S.fSales!=='all')list=list.filter(o=>o.salesman===S.fSales);
-  const rows=[['Date','Shop','Location','Salesman','SKU','Qty','Order total','Note','Entered by']];
-  list.forEach(o=>(o.items||[]).forEach(i=>rows.push([o.date,o.shop,o.location,o.salesman,i.sku,i.qty,o.total,o.note||'',o.entered_by])));
+  if(S.dq.trim()){const q=norm(S.dq);list=list.filter(o=>norm(o.shop+' '+o.location+' '+o.inv).includes(q))}
+  const rows=[['Date of dispatch','Invoice number','Shop','Location','Salesman','SKU','Qty','Dispatch total','Note','Entered by']];
+  list.forEach(o=>(o.items||[]).forEach(i=>rows.push([o.date,o.inv,o.shop,o.location,o.salesman,i.sku,i.qty,o.total,o.note||'',o.entered_by])));
   const text='﻿'+rows.map(r=>r.map(c=>{c=String(c??'');return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')).join('\r\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=`PELICAN-orders-${today()}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=`PELICAN-dispatches-${today()}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
 }
 function openTab(k){S.tab=k;S.confirm=null;window.scrollTo(0,0);render();if(k==='mine'&&!S.orders)loadOrders();if(k==='board'&&!S.board)loadBoard()}
 
@@ -483,6 +489,8 @@ document.addEventListener('input',e=>{
   const el=e.target;
   if(el.id==='shopq'){S.shopQ=el.value;fillShops()}
   else if(el.id==='onote')S.note=el.value;
+  else if(el.id==='oinv')S.invoice=el.value;
+  else if(el.id==='dq'){S.dq=el.value;const pos=el.selectionStart;render();const f=document.getElementById('dq');if(f){f.focus();try{f.setSelectionRange(pos,pos)}catch(_){}}}
   else if(el.id==='odate')S.date=el.value||today();
   else if(el.dataset&&el.dataset.sku){const q=Math.max(0,Math.min(100000,parseInt(el.value)||0));S.qty[el.dataset.sku]=q;el.parentElement.classList.toggle('on',q>0);
     const tot=document.getElementById('tot');if(tot)tot.textContent=num(Object.values(S.qty).reduce((a,b)=>a+(b||0),0))+' '+t('pcs')}
