@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E5A3A">
+<title>PELICAN Orders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Baloo+Da+2:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: shop-signboard look. Deep green bands, marigold highlights, big tap targets. Login is a name grid plus PIN pad; inside, three tabs at the bottom on phones. */
+:root{
+  --ground:#F2F4EE; --surface:#FFFFFF; --surface-2:#F6F8F3; --ink:#10231B; --muted:#5B6D64; --line:#DAE1D8;
+  --green:#0E5A3A; --green-ink:#FFFFFF; --green-soft:#E1EFE6;
+  --gold:#F2B300; --gold-ink:#2A1E00; --gold-soft:#FFF3CC; --gold-txt:#6B4E00;
+  --red:#C2352A; --red-soft:#FBE4E1;
+  --font:'Baloo Da 2','Baloo 2',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --ground:#0B1511; --surface:#13211B; --surface-2:#182A22; --ink:#E7F0EA; --muted:#97AAA0; --line:#24382E;
+  --green:#14774D; --green-ink:#FFFFFF; --green-soft:#173B2A;
+  --gold:#FFC93C; --gold-ink:#2A1E00; --gold-soft:#3A2F0B; --gold-txt:#FFD567;
+  --red:#FF7A6E; --red-soft:#3A1A17; color-scheme:dark;}}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.4;min-height:100vh;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px));-webkit-tap-highlight-color:transparent}
+body.out{padding-bottom:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-variant-numeric:tabular-nums}
+
+/* top band */
+.band{background:var(--green);color:var(--green-ink)}
+.band .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.logo{font-weight:800;letter-spacing:.16em;font-size:20px;line-height:1}
+.logo i{font-style:normal;display:block;font-size:11px;letter-spacing:.2em;opacity:.8;margin-top:4px;font-weight:600}
+.band .who{margin-left:auto;text-align:right;line-height:1.15}
+.band .who b{display:block;font-size:17px}
+.band .who small{opacity:.8;font-size:13px}
+.iconbtn{border:1px solid rgba(255,255,255,.35);background:transparent;color:inherit;border-radius:10px;height:40px;min-width:40px;padding:0 10px;font-weight:600;font-size:14px}
+.lang{display:inline-flex;border-radius:999px;padding:2px;background:rgba(255,255,255,.14)}
+.lang button{border:0;background:none;color:inherit;padding:4px 10px;border-radius:999px;font-size:14px;font-weight:700;opacity:.8}
+.lang button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink);opacity:1}
+
+/* login */
+.login{min-height:100vh;display:flex;flex-direction:column}
+.login .band .wrap{padding-block:18px}
+.login-body{flex:1;padding-block:28px 40px}
+.login h1{font-size:30px;line-height:1.1;margin:0 0 6px;font-weight:800}
+.login p.lead{margin:0 0 22px;color:var(--muted)}
+.names{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (min-width:600px){.names{grid-template-columns:repeat(3,1fr)}}
+.name{border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:18px 14px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:96px;justify-content:flex-end}
+.name .ini{width:40px;height:40px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;font-weight:800;font-size:18px;margin-bottom:8px}
+.name b{font-size:19px;line-height:1.15}
+.name small{color:var(--muted);font-size:14px}
+.name.office .ini{background:var(--gold-soft);color:var(--gold-txt)}
+.pinbox{max-width:340px;margin:0 auto;text-align:center}
+.pinbox h2{margin:0;font-size:24px;font-weight:800}
+.dots{display:flex;justify-content:center;gap:14px;margin:18px 0 8px}
+.dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--green)}
+.dots span.on{background:var(--green)}
+.pinerr{min-height:24px;color:var(--red);font-weight:600;font-size:15px}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.pad button{height:64px;border-radius:16px;border:0;background:var(--surface);font-size:26px;font-weight:700;box-shadow:0 1px 0 var(--line),inset 0 0 0 1px var(--line)}
+.pad button:active{background:var(--green-soft)}
+.pad .ghost{background:none;box-shadow:none;font-size:16px;color:var(--muted)}
+.back{border:0;background:none;color:var(--muted);font-weight:600;padding:6px 0;display:inline-flex;align-items:center;gap:4px}
+
+/* tabs */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);
+  padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs .in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px 9px;color:var(--muted);font-weight:700;font-size:14px}
+.tabs svg{width:24px;height:24px}
+.tabs button[aria-current="page"]{color:var(--green)}
+.tabs button[aria-current="page"] .pip{background:var(--gold)}
+.pip{width:28px;height:4px;border-radius:2px;background:transparent;margin-bottom:3px}
+
+main{padding-block:18px 28px}
+.stack{display:flex;flex-direction:column;gap:14px}
+h1.page{font-size:28px;line-height:1.1;margin:0;font-weight:800;text-wrap:balance}
+h2{font-size:19px;margin:0;font-weight:800}
+.sub{color:var(--muted);margin:2px 0 0;font-size:15px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.card-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.card-h .meta{color:var(--muted);font-size:14px}
+.input{width:100%;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 14px;font-size:17px;min-width:0}
+.input:focus{border-color:var(--green);outline:none}
+select.input{padding-right:8px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field>span{font-size:14px;font-weight:700;color:var(--muted)}
+.row2{display:grid;gap:12px}
+@media (min-width:560px){.row2{grid-template-columns:1fr 1fr}}
+.btn{border:0;background:var(--green);color:var(--green-ink);border-radius:12px;padding:12px 20px;font-weight:800;font-size:17px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{opacity:.5}
+.btn.gold{background:var(--gold);color:var(--gold-ink)}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.sm{padding:7px 12px;font-size:15px;border-radius:10px}
+.btn.red{background:var(--red);color:#fff}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-weight:700;font-size:15px;white-space:nowrap;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--green-ink)}
+
+/* shop list */
+.shops{display:flex;flex-direction:column}
+.shop{display:flex;align-items:center;gap:12px;padding:12px 4px;border:0;border-top:1px solid var(--line);background:none;text-align:left;width:100%}
+.shop:first-child{border-top:0}
+.shop .main{flex:1;min-width:0}
+.shop b{display:block;font-size:17px;line-height:1.2}
+.shop small{color:var(--muted);font-size:14px}
+.tag{font-size:13px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.tag.none{background:var(--gold-soft);color:var(--gold-txt)}
+.tag.last{background:var(--green-soft);color:var(--green)}
+.addshop{margin-top:6px;border:2px dashed var(--line);border-radius:12px;background:none;padding:12px;width:100%;font-weight:700;color:var(--green)}
+
+/* order form */
+.chosen{display:flex;align-items:center;gap:12px;background:var(--green);color:var(--green-ink);border-radius:16px;padding:14px 16px}
+.chosen .main{flex:1;min-width:0}
+.chosen b{display:block;font-size:20px;line-height:1.15}
+.chosen small{opacity:.85;font-size:14px}
+.chosen .btn{background:rgba(255,255,255,.16);color:inherit}
+.skus{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+.sku{border:2px solid var(--line);border-radius:12px;background:var(--surface-2);padding:6px 6px 7px;display:flex;flex-direction:column;gap:3px}
+.sku label{font-weight:800;font-size:18px;text-align:center;line-height:1.1;min-height:20px;overflow-wrap:anywhere}
+.sku.long label{font-size:13px;font-weight:700}
+.sku input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-align:center;font-size:18px;font-weight:800;padding:6px 2px;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sku input::-webkit-inner-spin-button,.sku input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.sku.on{background:var(--gold-soft);border-color:var(--gold)}
+.linkish{border:0;background:none;color:var(--green);font-weight:700;padding:4px 0;font-size:16px}
+.savebar{position:sticky;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:4;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--surface);border-radius:16px;padding:10px 10px 10px 18px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.savebar .main{flex:1}
+.savebar small{display:block;opacity:.75;font-size:13px}
+.savebar b{font-size:22px;font-variant-numeric:tabular-nums}
+
+/* orders */
+.order{padding:12px 0;border-top:1px solid var(--line)}
+.order:first-child{border-top:0;padding-top:0}
+.order .h{display:flex;gap:10px;align-items:baseline}
+.order .h .main{flex:1;min-width:0}
+.order b{font-size:17px}
+.order .m{font-size:14px;color:var(--muted)}
+.order .q{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lines{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.line{font-size:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:0 8px;font-variant-numeric:tabular-nums}
+.line strong{font-weight:800}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:15px}
+.del{border:0;background:none;color:var(--red);font-weight:700;padding:2px 0;font-size:14px}
+
+/* board */
+.totals{display:grid;grid-template-columns:repeat(3,1fr);background:var(--green);color:var(--green-ink);border-radius:16px;overflow:hidden}
+.totals div{padding:14px;border-left:1px solid rgba(255,255,255,.18)}
+.totals div:first-child{border-left:0}
+.totals small{display:block;opacity:.85;font-size:13px;font-weight:600}
+.totals b{font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+.totals b span{font-size:16px;opacity:.75}
+.rank{display:grid;grid-template-columns:34px 1fr auto;gap:4px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.rank:first-of-type{border-top:0}
+.rank .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:800;background:var(--surface-2);color:var(--muted)}
+.rank.r1 .n{background:var(--gold);color:var(--gold-ink)}
+.rank.r2 .n,.rank.r3 .n{background:var(--gold-soft);color:var(--gold-txt)}
+.rank .main{min-width:0}
+.rank b{display:block;line-height:1.2;overflow-wrap:anywhere}
+.rank small{color:var(--muted);font-size:14px}
+.rank .v{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;font-size:18px}
+.rank .v small{display:block;font-weight:600}
+.rank .bar{grid-column:2/-1;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.rank .bar i{display:block;height:100%;background:var(--green);border-radius:4px}
+.grid2{display:grid;gap:14px}
+@media (min-width:720px){.grid2{grid-template-columns:1fr 1fr;align-items:start}}
+.az{columns:1;column-gap:24px}
+@media (min-width:600px){.az{columns:2}}
+.az .letter{break-inside:avoid;margin-bottom:10px}
+.az .letter > div{font-weight:800;color:var(--green);font-size:18px;border-bottom:2px solid var(--gold);display:inline-block;margin-bottom:2px}
+.az p{margin:3px 0;font-size:15.5px;line-height:1.3}
+.az p small{color:var(--muted)}
+.feed{display:flex;flex-direction:column}
+.feed div{display:flex;gap:10px;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:15.5px}
+.feed div:first-child{border-top:0}
+.feed span{min-width:0}
+.feed small{color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:20px 8px}
+.banner{background:var(--red-soft);color:var(--red);border-radius:12px;padding:10px 14px;font-weight:600}
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center}
+.sheet .in{background:var(--surface);width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:20px max(16px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow-y:auto}
+@media (min-width:600px){.sheet{align-items:center}.sheet .in{border-radius:20px}}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--ink);color:var(--surface);padding:12px 18px;border-radius:12px;font-weight:700;max-width:calc(100% - 32px);text-align:center}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const API='https://bqsdsmjjssuwyyhhpwzk.supabase.co/rest/v1/rpc/';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxc2RzbWpqc3N1d3l5aGhwd3prIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNjMyNjUsImV4cCI6MjEwODczOTI2NX0.Ozhk0xT4ItYRQ--2D3_bR3Ec3-8QTLgjJkPC8qN6naw';
+
+const T={
+en:{orders:'Orders',tagline:'ORDER BOOK',who:'Who are you?',whoSub:'Tap your name, then enter your PIN.',office:'Office',officeSub:'All shops',shopsN:'{n} shops',
+enterPin:'Enter your PIN',wrongPin:'Wrong PIN. Try again.',locked:'Too many tries. Wait 10 minutes.',clear:'Clear',back:'Back',hello:'Namaskar,',logout:'Log out',
+tNew:'New order',tMine:'My orders',tAll:'All orders',tBoard:'Leaderboard',myShops:'My shops',allShops:'All shops',search:'Search shop or town',
+noOrderYet:'No order yet',lastOn:'Last: {d}',addShop:'+ Add a shop not in the list',newShopTitle:'New shop',shopName:'Shop name',town:'Town / location',
+addThis:'Use this shop',change:'Change',salesman:'Salesman',date:'Order date',cookers:'Cookers',spares:'Spare parts',showSpares:'Show spare parts',hideSpares:'Hide spare parts',
+note:'Note (optional)',notePh:'e.g. urgent, deliver by Saturday',total:'Total',pcs:'pcs',save:'Save order',saving:'Saving',saved:'Order saved for {s}',
+needQty:'Enter a quantity for at least one item',thisMonth:'This month',lastMonth:'Last month',allTime:'All time',noOrders:'No orders yet',
+del:'Delete',sure:'Delete this order?',yes:'Yes, delete',no:'Keep',deleted:'Order deleted',cantDel:'Only orders you saved in the last 24 hours can be deleted. Ask the office.',
+download:'Download for Excel',kOrders:'Orders',kPcs:'Pieces',kShops:'Shops ordered',rankSales:'Salesman ranking',topShops:'Top ordering shops',topSkus:'Top items',
+latest:'Latest orders',noOrderShops:'Shops with no orders yet ({n})',allOrdered:'Every shop has ordered. Well done!',ordersN:'{n} orders',shopsOf:'{a} of {b} shops',
+entered:'entered by {n}',pinTitle:'Change PIN',oldPin:'Current PIN',newPin:'New PIN (4–8 digits)',savePin:'Save PIN',pinSaved:'PIN changed',badPin:'PIN must be 4 to 8 digits',
+resetTitle:'Reset a salesman’s PIN',resetBtn:'Reset PIN',resetDone:'PIN reset for {n}',close:'Close',netErr:'No internet connection. Your entry is still on screen, try again.',
+expired:'Please log in again.',err:'Something went wrong: {e}',loading:'Loading',newTag:'new',all:'All',retry:'Try again'},
+bn:{orders:'অর্ডার',tagline:'অর্ডার বুক',who:'আপনি কে?',whoSub:'নিজের নামে চাপুন, তারপর পিন দিন।',office:'অফিস',officeSub:'সব দোকান',shopsN:'{n}টি দোকান',
+enterPin:'আপনার পিন দিন',wrongPin:'পিন ভুল। আবার চেষ্টা করুন।',locked:'অনেকবার ভুল হয়েছে। ১০ মিনিট অপেক্ষা করুন।',clear:'মুছুন',back:'ফিরে যান',hello:'নমস্কার,',logout:'লগ আউট',
+tNew:'নতুন অর্ডার',tMine:'আমার অর্ডার',tAll:'সব অর্ডার',tBoard:'লিডারবোর্ড',myShops:'আমার দোকান',allShops:'সব দোকান',search:'দোকান বা শহর খুঁজুন',
+noOrderYet:'এখনও অর্ডার নেই',lastOn:'শেষ: {d}',addShop:'+ তালিকায় নেই এমন দোকান যোগ করুন',newShopTitle:'নতুন দোকান',shopName:'দোকানের নাম',town:'শহর / জায়গা',
+addThis:'এই দোকান নিন',change:'বদলান',salesman:'সেলসম্যান',date:'অর্ডারের তারিখ',cookers:'কুকার',spares:'স্পেয়ার পার্টস',showSpares:'স্পেয়ার পার্টস দেখান',hideSpares:'স্পেয়ার পার্টস লুকান',
+note:'নোট (ঐচ্ছিক)',notePh:'যেমন: জরুরি, শনিবারের মধ্যে ডেলিভারি',total:'মোট',pcs:'পিস',save:'অর্ডার সেভ করুন',saving:'সেভ হচ্ছে',saved:'{s}-এর অর্ডার সেভ হয়েছে',
+needQty:'অন্তত একটি জিনিসের সংখ্যা লিখুন',thisMonth:'এই মাস',lastMonth:'গত মাস',allTime:'সব সময়',noOrders:'এখনও কোনো অর্ডার নেই',
+del:'মুছুন',sure:'এই অর্ডারটি মুছবেন?',yes:'হ্যাঁ, মুছুন',no:'রাখুন',deleted:'অর্ডার মোছা হয়েছে',cantDel:'শুধু গত ২৪ ঘণ্টায় আপনার সেভ করা অর্ডার মোছা যায়। অফিসে বলুন।',
+download:'এক্সেলের জন্য ডাউনলোড',kOrders:'অর্ডার',kPcs:'পিস',kShops:'দোকান অর্ডার দিয়েছে',rankSales:'সেলসম্যান র‍্যাঙ্কিং',topShops:'সবচেয়ে বেশি অর্ডার দেওয়া দোকান',topSkus:'সবচেয়ে বেশি বিক্রি',
+latest:'সাম্প্রতিক অর্ডার',noOrderShops:'যে দোকান এখনও অর্ডার দেয়নি ({n})',allOrdered:'সব দোকান অর্ডার দিয়েছে। দারুণ!',ordersN:'{n}টি অর্ডার',shopsOf:'{b}টির মধ্যে {a}টি দোকান',
+entered:'{n} লিখেছেন',pinTitle:'পিন বদলান',oldPin:'এখনকার পিন',newPin:'নতুন পিন (৪–৮ সংখ্যা)',savePin:'পিন সেভ করুন',pinSaved:'পিন বদলানো হয়েছে',badPin:'পিন ৪ থেকে ৮ সংখ্যার হতে হবে',
+resetTitle:'সেলসম্যানের পিন রিসেট',resetBtn:'পিন রিসেট',resetDone:'{n}-এর পিন রিসেট হয়েছে',close:'বন্ধ করুন',netErr:'ইন্টারনেট নেই। লেখা স্ক্রিনেই আছে, আবার চেষ্টা করুন।',
+expired:'আবার লগ ইন করুন।',err:'সমস্যা হয়েছে: {e}',loading:'লোড হচ্ছে',newTag:'নতুন',all:'সব',retry:'আবার চেষ্টা করুন'},
+hi:{orders:'ऑर्डर',tagline:'ऑर्डर बुक',who:'आप कौन हैं?',whoSub:'अपने नाम पर टैप करें, फिर पिन डालें।',office:'ऑफ़िस',officeSub:'सभी दुकानें',shopsN:'{n} दुकानें',
+enterPin:'अपना पिन डालें',wrongPin:'गलत पिन। फिर कोशिश करें।',locked:'बहुत बार गलत हुआ। 10 मिनट रुकें।',clear:'मिटाएं',back:'वापस',hello:'नमस्ते,',logout:'लॉग आउट',
+tNew:'नया ऑर्डर',tMine:'मेरे ऑर्डर',tAll:'सभी ऑर्डर',tBoard:'लीडरबोर्ड',myShops:'मेरी दुकानें',allShops:'सभी दुकानें',search:'दुकान या शहर खोजें',
+noOrderYet:'अभी कोई ऑर्डर नहीं',lastOn:'आखिरी: {d}',addShop:'+ सूची में न होने वाली दुकान जोड़ें',newShopTitle:'नई दुकान',shopName:'दुकान का नाम',town:'शहर / जगह',
+addThis:'यह दुकान चुनें',change:'बदलें',salesman:'सेल्समैन',date:'ऑर्डर की तारीख',cookers:'कुकर',spares:'स्पेयर पार्ट्स',showSpares:'स्पेयर पार्ट्स दिखाएं',hideSpares:'स्पेयर पार्ट्स छिपाएं',
+note:'नोट (वैकल्पिक)',notePh:'जैसे: ज़रूरी, शनिवार तक डिलीवरी',total:'कुल',pcs:'पीस',save:'ऑर्डर सेव करें',saving:'सेव हो रहा है',saved:'{s} का ऑर्डर सेव हो गया',
+needQty:'कम से कम एक चीज़ की संख्या लिखें',thisMonth:'इस महीने',lastMonth:'पिछले महीने',allTime:'अब तक',noOrders:'अभी कोई ऑर्डर नहीं',
+del:'हटाएं',sure:'यह ऑर्डर हटाएं?',yes:'हां, हटाएं',no:'रहने दें',deleted:'ऑर्डर हटा दिया गया',cantDel:'सिर्फ़ पिछले 24 घंटे में आपके सेव किए ऑर्डर हटाए जा सकते हैं। ऑफ़िस से कहें।',
+download:'एक्सेल के लिए डाउनलोड',kOrders:'ऑर्डर',kPcs:'पीस',kShops:'दुकानों ने ऑर्डर दिया',rankSales:'सेल्समैन रैंकिंग',topShops:'सबसे ज़्यादा ऑर्डर देने वाली दुकानें',topSkus:'सबसे ज़्यादा बिकने वाले',
+latest:'हाल के ऑर्डर',noOrderShops:'जिन दुकानों ने अभी ऑर्डर नहीं दिया ({n})',allOrdered:'हर दुकान ने ऑर्डर दिया है। बहुत बढ़िया!',ordersN:'{n} ऑर्डर',shopsOf:'{b} में से {a} दुकानें',
+entered:'{n} ने लिखा',pinTitle:'पिन बदलें',oldPin:'अभी का पिन',newPin:'नया पिन (4–8 अंक)',savePin:'पिन सेव करें',pinSaved:'पिन बदल गया',badPin:'पिन 4 से 8 अंकों का होना चाहिए',
+resetTitle:'सेल्समैन का पिन रीसेट करें',resetBtn:'पिन रीसेट',resetDone:'{n} का पिन रीसेट हो गया',close:'बंद करें',netErr:'इंटरनेट नहीं है। आपकी एंट्री स्क्रीन पर है, फिर कोशिश करें।',
+expired:'फिर से लॉग इन करें।',err:'कुछ गलत हुआ: {e}',loading:'लोड हो रहा है',newTag:'नई',all:'सभी',retry:'फिर कोशिश करें'}
+};
+
+/* ---------- state ---------- */
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+const S={lang:store.get('pel-lang')||'en',token:store.get('pel-token'),me:null,logins:null,pickName:null,pin:'',pinErr:'',busy:false,
+  boot:null,tab:'new',shopQ:'',shop:null,newShop:null,salesman:'',date:'',qty:{},note:'',showSpares:false,
+  period:'month',orders:null,fSales:'all',confirm:null,board:null,bPeriod:'month',sheet:null,saving:false};
+if(!T[S.lang])S.lang='en';
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>iso(new Date());
+S.date=today();
+function range(p){const d=new Date();if(p==='month')return [iso(new Date(d.getFullYear(),d.getMonth(),1)),null];
+  if(p==='last')return [iso(new Date(d.getFullYear(),d.getMonth()-1,1)),iso(new Date(d.getFullYear(),d.getMonth(),0))];return [null,null]}
+
+function t(k,v){let s=(T[S.lang]&&T[S.lang][k])||T.en[k]||k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s}
+const LOC={en:'en-IN',bn:'bn-IN-u-nu-latn',hi:'hi-IN-u-nu-latn'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=n=>Number(n||0).toLocaleString('en-IN');
+function fmtDay(s){if(!s)return '';const [y,m,d]=s.slice(0,10).split('-').map(Number);const o={day:'numeric',month:'short'};if(y!==new Date().getFullYear())o.year='numeric';return new Intl.DateTimeFormat(LOC[S.lang],o).format(new Date(y,m-1,d))}
+const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9ঀ-৿ऀ-ॿ]+/g,' ').trim();
+const initials=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+/* ---------- api ---------- */
+async function rpc(fn,args){
+  let r;
+  try{r=await fetch(API+fn,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(args||{})})}
+  catch(e){throw {code:'net'}}
+  const txt=await r.text();let body=null;try{body=txt?JSON.parse(txt):null}catch(e){}
+  if(!r.ok){const m=(body&&body.message)||('HTTP '+r.status);if(m==='session_expired'){logoutLocal();toast(t('expired'))}throw {code:m}}
+  return body;
+}
+function errMsg(e){if(!e)return t('err',{e:'?'});if(e.code==='net')return t('netErr');if(e.code==='cannot_delete')return t('cantDel');if(e.code==='session_expired')return t('expired');return t('err',{e:e.code})}
+
+/* ---------- views: login ---------- */
+const langSwitch=()=>`<div class="lang" role="group" aria-label="Language">${[['en','EN'],['bn','বাং'],['hi','हि']].map(([k,l])=>`<button data-lang="${k}" aria-pressed="${S.lang===k}">${l}</button>`).join('')}</div>`;
+const logo=()=>`<div class="logo">PELICAN<i>${t('tagline')}</i></div>`;
+function vLogin(){
+  let body;
+  if(S.loadErr)body=`<div class="stack" style="align-items:flex-start"><p class="banner">${esc(S.loadErr)}</p><button class="btn" data-act="retry">${t('retry')}</button></div>`;
+  else if(!S.logins)body=`<p class="empty"><span class="spin"></span></p>`;
+  else if(!S.pickName){
+    body=`<h1>${t('who')}</h1><p class="lead">${t('whoSub')}</p><div class="names">${S.logins.map(l=>`<button class="name${l.is_admin?' office':''}" data-act="pickname" data-name="${esc(l.name)}">
+      <span class="ini">${esc(l.is_admin?'★':initials(l.name))}</span><b>${esc(l.is_admin?t('office'):l.name)}</b>${l.is_admin?`<small>${t('officeSub')}</small>`:''}</button>`).join('')}</div>`;
+  } else {
+    const nm=S.logins.find(l=>l.name===S.pickName);const len=nm&&nm.is_admin?6:4;
+    body=`<div class="pinbox"><button class="back" data-act="unpickname">‹ ${t('back')}</button><h2>${esc(nm&&nm.is_admin?t('office'):S.pickName)}</h2><p class="sub">${t('enterPin')}</p>
+    <div class="dots" aria-live="polite">${Array.from({length:Math.max(len,S.pin.length)},(_,i)=>`<span class="${i<S.pin.length?'on':''}"></span>`).join('')}</div>
+    <div class="pinerr">${S.busy?'<span class="spin"></span>':esc(S.pinErr)}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-act="key" data-k="${n}">${n}</button>`).join('')}<button class="ghost" data-act="clr">${t('clear')}</button><button data-act="key" data-k="0">0</button><button class="ghost" data-act="bksp" aria-label="Backspace">⌫</button></div></div>`;
+  }
+  return `<div class="login"><div class="band"><div class="wrap">${logo()}<span style="margin-left:auto">${langSwitch()}</span></div></div><div class="login-body wrap">${body}</div></div>`;
+}
+
+/* ---------- views: app ---------- */
+const IC={
+ new:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>',
+ mine:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/></svg>',
+ board:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M8 21V11H3v10zM15 21V4H9v17zM21 21v-7h-5v7z"/></svg>'
+};
+function shell(inner){
+  const me=S.me;const isA=me.is_admin;
+  return `<div class="band"><div class="wrap">${logo()}<span style="margin-left:auto">${langSwitch()}</span>
+   <button class="iconbtn" data-act="settings" aria-label="${esc(t('pinTitle'))}">⋯</button></div></div>
+   <main class="wrap">${inner}</main>
+   <nav class="tabs"><div class="in">${[['new','tNew'],['mine',isA?'tAll':'tMine'],['board','tBoard']].map(([k,l])=>`<button data-act="tab" data-tab="${k}" ${S.tab===k?'aria-current="page"':''}><span class="pip"></span>${IC[k]}<span>${t(l)}</span></button>`).join('')}</div></nav>
+   ${S.sheet?vSheet():''}`;
+}
+
+function vNew(){
+  const B=S.boot;if(!B)return `<p class="empty"><span class="spin"></span></p>`;
+  const isA=S.me.is_admin;
+  if(!S.shop&&!S.newShop){
+    return `<div class="stack"><div><p class="sub" style="margin:0 0 2px">${t('hello')} <b style="color:var(--ink)">${esc(isA?t('office'):S.me.name)}</b></p><h1 class="page">${t('tNew')}</h1><p class="sub">${isA?t('allShops'):t('myShops')} · ${t('shopsN',{n:B.shops.length})}</p></div>
+    <input class="input" id="shopq" type="search" autocomplete="off" placeholder="${esc(t('search'))}" value="${esc(S.shopQ)}" aria-label="${esc(t('search'))}">
+    <section class="card"><div class="shops" id="shoplist"></div><button class="addshop" data-act="newshop">${t('addShop')}</button></section></div>`;
+  }
+  const sh=S.shop?B.shops.find(x=>x.id===S.shop):null;
+  const name=sh?sh.name:S.newShop.name, loc=sh?sh.location:S.newShop.location;
+  const tile=k=>{const q=S.qty[k.code]||'';const id='k'+k.code.replace(/[^A-Za-z0-9]/g,'_');return `<div class="sku${q?' on':''}${k.code.length>5?' long':''}"><label for="${id}">${esc(k.code)}</label><input id="${id}" data-sku="${esc(k.code)}" type="number" inputmode="numeric" min="0" placeholder="0" value="${q}"></div>`};
+  const total=Object.values(S.qty).reduce((a,b)=>a+(b||0),0);
+  return `<div class="stack">
+  <div class="chosen"><div class="main"><b>${esc(name)}</b><small>${esc(loc||'')}${sh?'':' · '+t('newTag')}${isA&&sh?' · '+esc(sh.salesman):''}</small></div><button class="btn sm" data-act="unpick">${t('change')}</button></div>
+  <section class="card ${isA?'row2':''}">${isA?`<label class="field"><span>${t('salesman')}</span><select class="input" id="sm">${B.salesmen.map(s=>`<option ${S.salesman===s?'selected':''}>${esc(s)}</option>`).join('')}</select></label>`:''}
+   <label class="field"><span>${t('date')}</span><input class="input" type="date" id="odate" value="${S.date}" max="${today()}"></label></section>
+  <section class="card"><div class="card-h"><h2>${t('cookers')}</h2></div><div class="skus">${B.skus.filter(k=>k.cat==='cooker').map(tile).join('')}</div>
+   <div style="margin-top:12px"><button class="linkish" data-act="spares">${S.showSpares?t('hideSpares'):t('showSpares')}</button></div>
+   ${S.showSpares?`<div class="card-h" style="margin-top:8px"><h2>${t('spares')}</h2></div><div class="skus">${B.skus.filter(k=>k.cat==='spare').map(tile).join('')}</div>`:''}</section>
+  <section class="card"><label class="field"><span>${t('note')}</span><input class="input" id="onote" maxlength="500" value="${esc(S.note)}" placeholder="${esc(t('notePh'))}"></label></section>
+  <div class="savebar"><div class="main"><small>${t('total')}</small><b id="tot">${num(total)} ${t('pcs')}</b></div><button class="btn gold" data-act="save" ${S.saving?'disabled':''}>${S.saving?`<span class="spin"></span> ${t('saving')}`:t('save')}</button></div></div>`;
+}
+function fillShops(){
+  const el=document.getElementById('shoplist');if(!el||!S.boot)return;const q=norm(S.shopQ);
+  const l=S.boot.shops.filter(s=>!q||norm(s.name+' '+s.location+' '+s.salesman).includes(q));
+  el.innerHTML=l.length?l.map(s=>`<button class="shop" data-act="pickshop" data-id="${esc(s.id)}"><span class="main"><b>${esc(s.name)}</b><small>${esc(s.location)}${S.me.is_admin?' · '+esc(s.salesman):''}</small></span>
+    ${s.last_order?`<span class="tag last">${t('lastOn',{d:fmtDay(s.last_order)})}</span>`:`<span class="tag none">${t('noOrderYet')}</span>`}</button>`).join(''):`<p class="empty">—</p>`;
+}
+
+const periodChips=(cur,act)=>`<div class="chips">${[['month','thisMonth'],['last','lastMonth'],['all','allTime']].map(([k,l])=>`<button class="chip" data-act="${act}" data-p="${k}" aria-pressed="${cur===k}">${t(l)}</button>`).join('')}</div>`;
+function vMine(){
+  const isA=S.me.is_admin;
+  let list=S.orders;
+  let body;
+  if(!list)body=`<p class="empty"><span class="spin"></span></p>`;
+  else{
+    if(isA&&S.fSales!=='all')list=list.filter(o=>o.salesman===S.fSales);
+    const pcs=list.reduce((a,o)=>a+o.total,0);
+    body=`<section class="card"><div class="card-h"><span class="meta">${t('ordersN',{n:list.length})} · ${num(pcs)} ${t('pcs')}</span>${isA&&list.length?`<button class="btn ghost sm" data-act="csv">${t('download')}</button>`:''}</div>
+    ${list.length?list.map(o=>{const own=o.entered_by===S.me.name&&(Date.now()-new Date(o.created_at).getTime()<864e5);const canDel=isA||own;
+      return `<div class="order"><div class="h"><div class="main"><b>${esc(o.shop)}</b><div class="m">${esc(fmtDay(o.date))} · ${esc(o.location||'')}${isA?' · '+esc(o.salesman):''}${o.entered_by!==o.salesman?' · '+esc(t('entered',{n:o.entered_by==='Office'?t('office'):o.entered_by})):''}</div></div><span class="q">${num(o.total)} ${t('pcs')}</span></div>
+      <div class="lines">${(o.items||[]).map(i=>`<span class="line"><strong>${esc(i.sku)}</strong> × ${num(i.qty)}</span>`).join('')}</div>
+      ${o.note?`<div class="m" style="margin-top:4px">“${esc(o.note)}”</div>`:''}
+      ${canDel?`<div class="acts">${S.confirm===o.id?`<span>${t('sure')}</span><button class="btn red sm" data-act="dodel" data-id="${o.id}">${t('yes')}</button><button class="btn ghost sm" data-act="nodel">${t('no')}</button>`:`<button class="del" data-act="del" data-id="${o.id}">${t('del')}</button>`}</div>`:''}</div>`}).join(''):`<p class="empty">${t('noOrders')}</p>`}</section>`;
+  }
+  return `<div class="stack"><h1 class="page">${isA?t('tAll'):t('tMine')}</h1>${periodChips(S.period,'period')}
+  ${isA&&S.boot?`<div class="chips">${['all',...S.boot.salesmen].map(s=>`<button class="chip" data-act="fs" data-s="${esc(s)}" aria-pressed="${S.fSales===s}">${s==='all'?t('all'):esc(s)}</button>`).join('')}</div>`:''}
+  ${body}</div>`;
+}
+
+function vBoard(){
+  const B=S.board;let body;
+  if(!B)body=`<p class="empty"><span class="spin"></span></p>`;
+  else{
+    const tt=B.totals;const smMax=Math.max(1,...B.salesmen.map(s=>s.pcs));
+    const rk=(i,main,sub,v,vs,bar)=>`<div class="rank r${i+1}"><span class="n">${i+1}</span><span class="main"><b>${main}</b><small>${sub}</small></span><span class="v">${v}<small>${vs}</small></span>${bar!=null?`<span class="bar"><i style="width:${bar}%"></i></span>`:''}</div>`;
+    const groups={};B.no_orders.forEach(s=>{const L=(s.name.trim()[0]||'#').toUpperCase();(groups[L]=groups[L]||[]).push(s)});
+    body=`<div class="totals"><div><small>${t('kOrders')}</small><b>${num(tt.orders)}</b></div><div><small>${t('kPcs')}</small><b>${num(tt.pcs)}</b></div><div><small>${t('kShops')}</small><b>${num(tt.shops_ordered)}<span> / ${num(tt.shops_total)}</span></b></div></div>
+    <section class="card"><div class="card-h"><h2>${t('rankSales')}</h2></div>${B.salesmen.map((s,i)=>rk(i,esc(s.name),t('ordersN',{n:s.orders})+' · '+t('shopsOf',{a:s.shops_ordered,b:s.shops_total}),num(s.pcs),t('pcs'),(s.pcs/smMax*100).toFixed(0))).join('')}</section>
+    <div class="grid2"><section class="card"><div class="card-h"><h2>${t('topShops')}</h2></div>${B.top_shops.length?B.top_shops.map((s,i)=>rk(i,esc(s.name),esc(s.location)+' · '+esc(s.salesman),num(s.pcs),t('pcs'),null)).join(''):`<p class="empty">${t('noOrders')}</p>`}</section>
+    <section class="card"><div class="card-h"><h2>${t('topSkus')}</h2></div>${B.top_skus.length?B.top_skus.map((s,i)=>rk(i,esc(s.sku),'',num(s.pcs),t('pcs'),(s.pcs/B.top_skus[0].pcs*100).toFixed(0))).join(''):`<p class="empty">${t('noOrders')}</p>`}</section></div>
+    ${B.latest.length?`<section class="card"><div class="card-h"><h2>${t('latest')}</h2></div><div class="feed">${B.latest.map(o=>`<div><span><b>${esc(o.shop)}</b> <small>· ${esc(o.salesman)} · ${esc(fmtDay(o.date))}</small></span><span class="num" style="font-weight:800;white-space:nowrap">${num(o.pcs)} ${t('pcs')}</span></div>`).join('')}</div></section>`:''}
+    <section class="card"><div class="card-h"><h2>${t('noOrderShops',{n:B.no_orders.length})}</h2></div>
+    ${B.no_orders.length?`<div class="az">${Object.keys(groups).sort().map(L=>`<div class="letter"><div>${esc(L)}</div>${groups[L].map(s=>`<p>${esc(s.name)} <small>· ${esc(s.location)} · ${esc(s.salesman)}</small></p>`).join('')}</div>`).join('')}</div>`:`<p class="empty">${t('allOrdered')}</p>`}</section>`;
+  }
+  return `<div class="stack"><h1 class="page">${t('tBoard')}</h1>${periodChips(S.bPeriod,'bperiod')}${body}</div>`;
+}
+
+function vSheet(){
+  const isA=S.me.is_admin;
+  return `<div class="sheet" data-act="closesheet"><div class="in" data-stop="1">
+   <p class="sub" style="margin:0">${t('hello')} <b style="color:var(--ink)">${esc(isA?t('office'):S.me.name)}</b></p><h2>${t('pinTitle')}</h2>
+   <label class="field"><span>${t('oldPin')}</span><input class="input" id="p_old" type="password" inputmode="numeric" autocomplete="current-password"></label>
+   <label class="field"><span>${t('newPin')}</span><input class="input" id="p_new" type="password" inputmode="numeric" autocomplete="new-password"></label>
+   <button class="btn" data-act="savepin">${t('savePin')}</button>
+   ${isA&&S.boot?`<hr style="border:0;border-top:1px solid var(--line);width:100%"><h2>${t('resetTitle')}</h2>
+   <div class="row2"><select class="input" id="r_name">${S.boot.salesmen.map(s=>`<option>${esc(s)}</option>`).join('')}</select><input class="input" id="r_pin" inputmode="numeric" placeholder="${esc(t('newPin'))}"></div>
+   <button class="btn ghost" data-act="resetpin">${t('resetBtn')}</button>`:''}
+   <hr style="border:0;border-top:1px solid var(--line);width:100%">
+   <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div class="lang" style="background:var(--surface-2)">${[['en','EN'],['bn','বাং'],['hi','हि']].map(([k,l])=>`<button data-lang="${k}" aria-pressed="${S.lang===k}" style="color:var(--ink)">${l}</button>`).join('')}</div>
+   <span style="display:flex;gap:8px"><button class="btn ghost sm" data-act="logout">${t('logout')}</button><button class="btn sm" data-act="closesheet">${t('close')}</button></span></div>
+  </div></div>`;
+}
+
+/* ---------- render & data ---------- */
+function render(){
+  document.documentElement.lang=S.lang;
+  const app=document.getElementById('app');
+  if(!S.me){document.body.classList.add('out');app.innerHTML=vLogin();return}
+  document.body.classList.remove('out');
+  app.innerHTML=shell(S.tab==='mine'?vMine():S.tab==='board'?vBoard():vNew());
+  fillShops();
+}
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>el.hidden=true,3200)}
+function logoutLocal(){S.token=null;S.me=null;S.boot=null;S.orders=null;S.board=null;S.sheet=null;S.pickName=null;S.pin='';store.set('pel-token',null);if(!S.logins)loadLogins();render()}
+async function loadLogins(){S.loadErr=null;S.logins=null;render();try{S.logins=await rpc('app_logins')}catch(e){S.logins=null;S.loadErr=errMsg(e)}render()}
+async function loadBoot(){try{S.boot=await rpc('app_bootstrap',{p_token:S.token});S.me=S.boot.me;render()}catch(e){if(e.code!=='session_expired'){toast(errMsg(e));if(!S.me){S.me=null}}render()}}
+async function loadOrders(){S.orders=null;render();const [f,to]=range(S.period);try{S.orders=await rpc('app_orders',{p_token:S.token,p_from:f,p_to:to})}catch(e){S.orders=[];toast(errMsg(e))}render()}
+async function loadBoard(){S.board=null;render();const [f,to]=range(S.bPeriod);try{S.board=await rpc('app_board',{p_token:S.token,p_from:f,p_to:to})}catch(e){toast(errMsg(e))}render()}
+async function tryLogin(){
+  S.busy=true;S.pinErr='';render();
+  try{const r=await rpc('app_login',{p_name:S.pickName,p_pin:S.pin});
+    if(r.error){S.busy=false;S.pin='';S.pinErr=r.error==='locked'?t('locked'):t('wrongPin');render();return}
+    S.token=r.token;store.set('pel-token',r.token);S.me={name:r.name,is_admin:r.is_admin};S.busy=false;S.pin='';S.pickName=null;S.tab='new';render();loadBoot();
+  }catch(e){S.busy=false;S.pin='';S.pinErr=errMsg(e);render()}
+}
+function resetOrder(){S.shop=null;S.newShop=null;S.qty={};S.note='';S.shopQ='';S.showSpares=false}
+async function saveOrder(){
+  const items=Object.entries(S.qty).filter(([,q])=>q>0).map(([sku,qty])=>({sku,qty}));
+  if(!items.length){toast(t('needQty'));return}
+  S.saving=true;render();
+  try{const r=await rpc('app_add_order',{p_token:S.token,p_shop_id:S.shop||null,p_new_shop_name:S.newShop?S.newShop.name:null,p_new_shop_location:S.newShop?S.newShop.location:null,
+      p_salesman:S.me.is_admin?S.salesman:null,p_date:S.date,p_note:S.note,p_items:items});
+    S.saving=false;resetOrder();window.scrollTo(0,0);toast(t('saved',{s:r.shop}));render();loadBoot();S.orders=null;S.board=null;
+  }catch(e){S.saving=false;render();toast(errMsg(e))}
+}
+function csv(){
+  let list=S.orders||[];if(S.fSales!=='all')list=list.filter(o=>o.salesman===S.fSales);
+  const rows=[['Date','Shop','Location','Salesman','SKU','Qty','Order total','Note','Entered by']];
+  list.forEach(o=>(o.items||[]).forEach(i=>rows.push([o.date,o.shop,o.location,o.salesman,i.sku,i.qty,o.total,o.note||'',o.entered_by])));
+  const text='﻿'+rows.map(r=>r.map(c=>{c=String(c??'');return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=`PELICAN-orders-${today()}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+}
+function openTab(k){S.tab=k;S.confirm=null;window.scrollTo(0,0);render();if(k==='mine'&&!S.orders)loadOrders();if(k==='board'&&!S.board)loadBoard()}
+
+document.addEventListener('click',e=>{
+  const lb=e.target.closest('[data-lang]');if(lb){S.lang=lb.dataset.lang;store.set('pel-lang',S.lang);render();return}
+  const a=e.target.closest('[data-act]');if(!a)return;
+  if(a.dataset.act==='closesheet'&&e.target.closest('[data-stop]')&&!e.target.closest('button'))return;
+  const act=a.dataset.act;
+  if(act==='pickname'){S.pickName=a.dataset.name;S.pin='';S.pinErr='';render()}
+  else if(act==='retry')loadLogins();
+  else if(act==='unpickname'){S.pickName=null;S.pin='';render()}
+  else if(act==='key'){if(S.busy)return;const nm=S.logins.find(l=>l.name===S.pickName);const len=nm&&nm.is_admin?6:4;if(S.pin.length>=8)return;S.pin+=a.dataset.k;S.pinErr='';render();if(S.pin.length===len)tryLogin()}
+  else if(act==='bksp'){S.pin=S.pin.slice(0,-1);render()}
+  else if(act==='clr'){S.pin='';render()}
+  else if(act==='tab')openTab(a.dataset.tab);
+  else if(act==='pickshop'){const sh=S.boot.shops.find(x=>x.id===a.dataset.id);S.shop=sh.id;S.salesman=sh.salesman;S.qty={};window.scrollTo(0,0);render()}
+  else if(act==='newshop'){S.sheet=null;const nm=(S.shopQ||'').trim();S.newShopForm=true;
+    document.getElementById('app').insertAdjacentHTML('beforeend',`<div class="sheet" data-act="closenew"><div class="in" data-stop="1"><h2>${t('newShopTitle')}</h2>
+    <label class="field"><span>${t('shopName')}</span><input class="input" id="ns_name" value="${esc(nm)}"></label>
+    <label class="field"><span>${t('town')}</span><input class="input" id="ns_loc"></label>
+    <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" data-act="closenew">${t('close')}</button><button class="btn" data-act="usenew">${t('addThis')}</button></div></div></div>`);
+    setTimeout(()=>{const f=document.getElementById('ns_name');if(f)f.focus()},50)}
+  else if(act==='closenew'){if(e.target.closest('[data-stop]')&&!e.target.closest('button'))return;const s=document.querySelector('.sheet');if(s)s.remove()}
+  else if(act==='usenew'){const n=document.getElementById('ns_name').value.trim(),l=document.getElementById('ns_loc').value.trim();if(n.length<2){document.getElementById('ns_name').focus();return}
+    S.newShop={name:n,location:l};S.shop=null;S.salesman=S.me.is_admin?(S.boot.salesmen[0]||''):S.me.name;S.qty={};render();window.scrollTo(0,0)}
+  else if(act==='unpick'){resetOrder();render()}
+  else if(act==='spares'){S.showSpares=!S.showSpares;render()}
+  else if(act==='save')saveOrder();
+  else if(act==='period'){S.period=a.dataset.p;loadOrders()}
+  else if(act==='bperiod'){S.bPeriod=a.dataset.p;loadBoard()}
+  else if(act==='fs'){S.fSales=a.dataset.s;render()}
+  else if(act==='del'){S.confirm=a.dataset.id;render()}
+  else if(act==='nodel'){S.confirm=null;render()}
+  else if(act==='dodel'){const id=a.dataset.id;S.confirm=null;rpc('app_delete_order',{p_token:S.token,p_id:id}).then(()=>{toast(t('deleted'));S.board=null;loadOrders();loadBoot()}).catch(err=>toast(errMsg(err)))}
+  else if(act==='csv')csv();
+  else if(act==='settings'){S.sheet=true;render()}
+  else if(act==='closesheet'){S.sheet=null;render()}
+  else if(act==='logout'){rpc('app_logout',{p_token:S.token}).catch(()=>{});logoutLocal()}
+  else if(act==='savepin'){const o=document.getElementById('p_old').value,n=document.getElementById('p_new').value;if(!/^\d{4,8}$/.test(n)){toast(t('badPin'));return}
+    rpc('app_change_pin',{p_token:S.token,p_old:o,p_new:n}).then(()=>{toast(t('pinSaved'));S.sheet=null;render()}).catch(err=>toast(err.code==='wrong_pin'?t('wrongPin'):errMsg(err)))}
+  else if(act==='resetpin'){const nm=document.getElementById('r_name').value,p=document.getElementById('r_pin').value;if(!/^\d{4,8}$/.test(p)){toast(t('badPin'));return}
+    rpc('app_reset_pin',{p_token:S.token,p_name:nm,p_new:p}).then(()=>{toast(t('resetDone',{n:nm}));document.getElementById('r_pin').value=''}).catch(err=>toast(errMsg(err)))}
+});
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.id==='shopq'){S.shopQ=el.value;fillShops()}
+  else if(el.id==='onote')S.note=el.value;
+  else if(el.id==='odate')S.date=el.value||today();
+  else if(el.dataset&&el.dataset.sku){const q=Math.max(0,Math.min(100000,parseInt(el.value)||0));S.qty[el.dataset.sku]=q;el.parentElement.classList.toggle('on',q>0);
+    const tot=document.getElementById('tot');if(tot)tot.textContent=num(Object.values(S.qty).reduce((a,b)=>a+(b||0),0))+' '+t('pcs')}
+});
+document.addEventListener('change',e=>{if(e.target.id==='sm')S.salesman=e.target.value});
+document.addEventListener('focusin',e=>{if(e.target.dataset&&e.target.dataset.sku)e.target.select()});
+document.addEventListener('keydown',e=>{if(!S.me&&S.pickName&&/^[0-9]$/.test(e.key)){const b=document.querySelector(`[data-act=key][data-k="${e.key}"]`);if(b)b.click()}else if(!S.me&&S.pickName&&e.key==='Backspace'){S.pin=S.pin.slice(0,-1);render()}});
+
+if(S.token){S.me={name:'',is_admin:false};loadBoot()}else loadLogins();
+render();
+</script>
+</body>
+</html>
